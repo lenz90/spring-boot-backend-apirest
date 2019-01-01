@@ -9,7 +9,13 @@ import io.reactivex.Single;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.xml.ws.Response;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -22,11 +28,23 @@ public class ClienteController {
     @GetMapping(value = "/clientes", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flowable<Cliente> findAll() {
         return clienteService.findAll();
+        //return Flowable.empty();
     }
 
     @GetMapping(value = "/clientes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Maybe<Cliente> findById(@PathVariable("id") Long id) {
-        return clienteService.findById(id);
+    public Maybe<ResponseEntity<?>> findById(@PathVariable("id") Long id) {
+        return clienteService.findById(id).defaultIfEmpty(new Cliente()).map(c -> {
+                    if (Optional.ofNullable(c.getId()).isPresent()) {
+                        return new ResponseEntity(c, HttpStatus.OK);
+                    } else {
+                        Map<String, Object> errors = new HashMap<>();
+                        errors.put("mensaje", "El cliente no existe.");
+                        return new ResponseEntity(errors, HttpStatus.NOT_FOUND);
+                    }
+
+                }
+
+        );
     }
 
     @PostMapping(value = "/clientes", produces = MediaType.APPLICATION_JSON_VALUE)

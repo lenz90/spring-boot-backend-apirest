@@ -4,3 +4,6 @@ spring:
       keyspace-name: db_springboot_backend
       contact-points: localhost
       port: 9042
+
+
+

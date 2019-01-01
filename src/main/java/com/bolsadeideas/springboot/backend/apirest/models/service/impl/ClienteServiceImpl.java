@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.backend.apirest.models.service.impl;
 
 import com.bolsadeideas.springboot.backend.apirest.models.dao.ClienteRepository;
+import com.bolsadeideas.springboot.backend.apirest.models.dao.IdsRepository;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Cliente;
 import com.bolsadeideas.springboot.backend.apirest.models.service.ClienteService;
 import io.reactivex.Completable;
@@ -19,6 +20,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private IdsRepository idsRepository;
+
     @Override
     public Flowable<Cliente> findAll() {
         return clienteRepository.findAll();
@@ -32,9 +36,15 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Single<Cliente> save(Cliente cliente) {
-        cliente.setCreateAt(new Date());
-        return clienteRepository.save(cliente)
-                .doOnError(Throwable::printStackTrace);
+        return idsRepository.findById("cliente").flatMapSingle(x -> {
+            cliente.setId(x.getNewCode());
+            cliente.setCreateAt(new Date());
+            return clienteRepository.save(cliente)
+                    .doOnError(Throwable::printStackTrace).doOnSuccess(y -> {
+                        x.setCode(x.getNewCode());
+                        idsRepository.save(x).subscribe();
+                    });
+        });
     }
 
     @Override
