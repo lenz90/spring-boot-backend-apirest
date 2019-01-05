@@ -13,7 +13,7 @@ public interface ClienteService {
 
     Single<Cliente> save(Cliente cliente);
 
-    Single<Cliente> update(Cliente cliente, Long id);
+    Single<Cliente> update(Cliente cliente);
 
     Completable delete(Long id);
 

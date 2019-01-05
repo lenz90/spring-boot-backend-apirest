@@ -48,15 +48,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Single<Cliente> update(Cliente cliente, Long id) {
-        return clienteRepository.findById(id)
-                .switchIfEmpty(Single.error(new RuntimeException("No se encontró el cliente")))
-                .flatMap(x -> {
-                    x.setApellido(cliente.getApellido());
-                    x.setEmail(cliente.getEmail());
-                    x.setNombre(cliente.getNombre());
-                    return clienteRepository.save(x);
-                });
+    public Single<Cliente> update(Cliente cliente) {
+        return clienteRepository.save(cliente);
     }
 
     @Override

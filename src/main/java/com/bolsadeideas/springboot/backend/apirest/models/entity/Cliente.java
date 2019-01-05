@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.backend.apirest.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -17,8 +18,10 @@ import java.util.Optional;
 public class Cliente {
     @PrimaryKey(value = "id")
     private Long id;
+    @JsonProperty(required = true)
     @Column(value = "nombre")
     private String nombre;
+    @JsonProperty(required = true)
     @Column(value = "apellido")
     private String apellido;
     @Column(value = "email")
