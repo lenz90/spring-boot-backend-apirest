@@ -4,6 +4,8 @@ import com.bolsadeideas.springboot.backend.apirest.models.dao.ClienteRepository;
 import com.bolsadeideas.springboot.backend.apirest.models.dao.IdsRepository;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Cliente;
 import com.bolsadeideas.springboot.backend.apirest.models.service.ClienteService;
+import com.bolsadeideas.springboot.backend.apirest.util.Page;
+import com.bolsadeideas.springboot.backend.apirest.util.Util;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -25,7 +27,16 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Flowable<Cliente> findAll() {
-        return clienteRepository.findAll();
+        return clienteRepository.findAll().sorted(
+                (a, b) -> a.getId().compareTo(b.getId())
+        );
+    }
+
+    @Override
+    public Single<Page<Cliente>> findAll(Integer page, Integer cant) {
+        return clienteRepository.findAll()
+                .toSortedList((a, b) -> a.getId().compareTo(b.getId()))
+                .flatMap(c -> Util.getPage(page, cant, c));
     }
 
     @Override

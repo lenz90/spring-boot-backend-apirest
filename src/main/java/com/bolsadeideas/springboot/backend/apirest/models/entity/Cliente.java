@@ -1,11 +1,13 @@
 package com.bolsadeideas.springboot.backend.apirest.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Optional;
 
@@ -13,17 +15,24 @@ import java.util.Optional;
 @Data
 @Setter
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cliente {
     @PrimaryKey(value = "id")
     private Long id;
-    @JsonProperty(required = true)
+
+    @NotEmpty(message = "no puede estar vacío")
+    @Size(min = 4, max = 12, message = "el tamaño tiene que ser de 4 a 12 caracteres")
     @Column(value = "nombre")
     private String nombre;
-    @JsonProperty(required = true)
+
+    @NotEmpty(message = "no puede estar vacío")
     @Column(value = "apellido")
     private String apellido;
+
+    @NotEmpty(message = "no puede estar vacío")
+    @Email(message = "no es una dirección de correo bien formada.")
     @Column(value = "email")
     private String email;
     @Column(value = "create_at")

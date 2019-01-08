@@ -1,13 +1,13 @@
 package com.bolsadeideas.springboot.backend.apirest.models.service;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Cliente;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import com.bolsadeideas.springboot.backend.apirest.util.Page;
+import io.reactivex.*;
 
 public interface ClienteService {
     Flowable<Cliente> findAll();
+
+    Single<Page<Cliente>> findAll(Integer page, Integer cant);
 
     Maybe<Cliente> findById(Long id);
 
