@@ -49,7 +49,7 @@ public class ClienteServiceImpl implements ClienteService {
     public Single<Cliente> save(Cliente cliente) {
         return idsRepository.findById("cliente").flatMapSingle(x -> {
             cliente.setId(x.getNewCode());
-            cliente.setCreateAt(new Date());
+            //cliente.setCreateAt(new Date());
             return clienteRepository.save(cliente)
                     .doOnError(Throwable::printStackTrace).doOnSuccess(y -> {
                         x.setCode(x.getNewCode());

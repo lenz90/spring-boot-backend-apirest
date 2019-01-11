@@ -14,10 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
@@ -124,5 +126,13 @@ public class ClienteController {
                 }).onErrorResumeNext(e ->
                         Single.just(getMessages(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR))
                 );
+    }
+
+    public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
+        Map<String, Object> response = new HashMap<>();
+
+        clienteService.findById(id);
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Optional;
@@ -35,6 +36,8 @@ public class Cliente {
     @Email(message = "no es una dirección de correo bien formada.")
     @Column(value = "email")
     private String email;
+
+    @NotNull(message = "No puede estar vacío")
     @Column(value = "create_at")
     private Date createAt;
 
