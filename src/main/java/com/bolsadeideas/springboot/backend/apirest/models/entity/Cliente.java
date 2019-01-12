@@ -41,6 +41,9 @@ public class Cliente {
     @Column(value = "create_at")
     private Date createAt;
 
+    @Column(value = "foto")
+    private String foto;
+
     public void setId(Long id) {
         if (Optional.ofNullable(id).isPresent()) {
             this.id = id;
@@ -70,4 +73,11 @@ public class Cliente {
             this.createAt = createAt;
         }
     }
+
+    public void setFoto(String foto) {
+        if (Optional.ofNullable(foto).isPresent()) {
+            this.foto = foto;
+        }
+    }
+
 }

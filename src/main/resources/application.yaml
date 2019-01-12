@@ -7,6 +7,9 @@ spring:
   jackson:
     time-zone: America/Lima
     locale: es_PE
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 
