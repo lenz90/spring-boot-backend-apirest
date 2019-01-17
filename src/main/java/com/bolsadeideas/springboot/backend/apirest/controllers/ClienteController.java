@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -181,12 +182,18 @@ public class ClienteController {
 
         try {
             recurso = new UrlResource(rutaArchivo.toUri());
-        } catch (IOException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         if (!recurso.exists() && !recurso.isReadable()) {
-            throw new RuntimeException("No se pudo cargar la imagen: " + nombrefoto);
+            rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-usuario.png").toAbsolutePath();
+            try {
+                recurso = new UrlResource(rutaArchivo.toUri());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            log.error("No se pudo cargar la imagen: " + nombrefoto);
         }
         HttpHeaders cabecera = new HttpHeaders();
         cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
