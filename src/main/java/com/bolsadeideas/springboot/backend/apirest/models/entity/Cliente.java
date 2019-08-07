@@ -1,5 +1,8 @@
 package com.bolsadeideas.springboot.backend.apirest.models.entity;
 
+import com.bolsadeideas.springboot.backend.apirest.models.entity.udt.RegionesUdt;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -19,32 +22,43 @@ import java.util.Optional;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(description = "Cliente que muestra todos los datos", value = "Cliente")
 public class Cliente {
+    @ApiModelProperty(value = "Codigo del cliente")
     @PrimaryKey(value = "id")
-    private Long id;
+    private Integer id;
 
+    @ApiModelProperty(value = "Nombre del cliente")
     @NotEmpty(message = "no puede estar vacío")
     @Size(min = 4, max = 12, message = "el tamaño tiene que ser de 4 a 12 caracteres")
     @Column(value = "nombre")
     private String nombre;
 
+    @ApiModelProperty(value = "Apellido del cliente")
     @NotEmpty(message = "no puede estar vacío")
     @Column(value = "apellido")
     private String apellido;
 
+    @ApiModelProperty(value = "Email del cliente")
     @NotEmpty(message = "no puede estar vacío")
     @Email(message = "no es una dirección de correo bien formada.")
     @Column(value = "email")
     private String email;
 
+    @ApiModelProperty(value = "Dia creado del cliente")
     @NotNull(message = "No puede estar vacío")
     @Column(value = "create_at")
     private Date createAt;
 
+    @ApiModelProperty(value = "Foto del cliente")
     @Column(value = "foto")
     private String foto;
 
-    public void setId(Long id) {
+    @Column(value = "region")
+    @NotNull(message="La región no puede ser vacía")
+    private RegionesUdt region;
+
+    public void setId(Integer id) {
         if (Optional.ofNullable(id).isPresent()) {
             this.id = id;
         }

@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.backend.apirest.models.service;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Cliente;
+import com.bolsadeideas.springboot.backend.apirest.models.entity.Regiones;
 import com.bolsadeideas.springboot.backend.apirest.util.Page;
 import io.reactivex.*;
 
@@ -17,4 +18,5 @@ public interface ClienteService {
 
     Completable delete(Long id);
 
+    //Flowable<Regiones> findAllRegions();
 }

@@ -20,14 +20,14 @@ public class Ids {
     private String name;
 
     @Column(value = "code")
-    private Long code;
+    private Integer code;
 
-    public Long getNewCode() {
+    public Integer getNewCode() {
         if (Optional.ofNullable(code).isPresent()) {
             return this.code + 1;
         } else {
             log.error("No se obtiene codigo");
-            return 0L;
+            return 0;
         }
     }
 }

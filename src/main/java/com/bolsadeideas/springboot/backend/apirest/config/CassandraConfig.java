@@ -17,7 +17,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
      * Provide a contact point to the configuration.
      */
     public String getContactPoints() {
-        return "localhost";
+        return "127.0.0.1";
     }
 
     /*

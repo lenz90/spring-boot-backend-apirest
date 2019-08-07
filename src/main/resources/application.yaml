@@ -4,6 +4,8 @@ spring:
       keyspace-name: db_springboot_backend
       contact-points: localhost
       port: 9042
+
+
   jackson:
     time-zone: America/Lima
     locale: es_PE
