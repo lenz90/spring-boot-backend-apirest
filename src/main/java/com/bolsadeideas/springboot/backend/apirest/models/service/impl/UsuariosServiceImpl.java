@@ -3,6 +3,7 @@ package com.bolsadeideas.springboot.backend.apirest.models.service.impl;
 import com.bolsadeideas.springboot.backend.apirest.models.dao.UsuariosRepository;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Usuario;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.udt.RoleUdt;
+import com.bolsadeideas.springboot.backend.apirest.models.service.UsuariosService;
 import io.reactivex.Maybe;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UsuariosServiceImpl implements UserDetailsService {
+public class UsuariosServiceImpl implements UsuariosService,  UserDetailsService {
 
     @Autowired
     private UsuariosRepository usuariosRepository;
@@ -48,5 +49,10 @@ public class UsuariosServiceImpl implements UserDetailsService {
 
         return new User(user.getUser(), user.getPassword(), user.getStatus().getBoolean(),
                 true, true, true, authorities);
+    }
+
+    @Override
+    public Usuario findByUserName(String user) {
+        return usuariosRepository.findById(user).blockingGet();
     }
 }

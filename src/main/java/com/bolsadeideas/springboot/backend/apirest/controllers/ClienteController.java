@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +53,7 @@ public class ClienteController {
 
     }
 
-
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/clientes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Maybe<ResponseEntity> findById(@PathVariable("id") Long id) {
         return clienteService.findById(id).map(c -> getMessages(c, HttpStatus.OK))
@@ -78,6 +79,7 @@ public class ClienteController {
     }
 
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping(value = "/clientes", produces = MediaType.APPLICATION_JSON_VALUE)
     public Single<ResponseEntity> save(@Valid @RequestBody Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
@@ -95,6 +97,7 @@ public class ClienteController {
                 );
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping(value = "/clientes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Single<ResponseEntity> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable("id") Long id) {
@@ -121,6 +124,7 @@ public class ClienteController {
                 );
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping(value = "/clientes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Single<ResponseEntity> deleteById(@PathVariable(value = "id") Long id) {
@@ -138,6 +142,7 @@ public class ClienteController {
                 );
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/clientes/upload")
     public Single<ResponseEntity> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         return clienteService.findById(id).defaultIfEmpty(new Cliente()).flatMapSingle(c -> {

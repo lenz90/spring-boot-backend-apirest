@@ -22,6 +22,12 @@ public class Usuario {
     private String user;
     @Column(value = "password")
     private String password;
+    @Column(value = "lastname")
+    private String lastname;
+    @Column(value = "name")
+    private String name;
+    @Column(value = "email")
+    private String email;
     @Column(value = "status")
     private StatusEnum status;
     @Column(value = "role")

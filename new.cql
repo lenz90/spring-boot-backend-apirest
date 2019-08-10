@@ -32,10 +32,14 @@ CREATE TABLE roles (
 	PRIMARY KEY (role)
 );
 
+drop table usuarios;
 
 CREATE TABLE usuarios (
 	user text,
 	password text,
+	lastname text,
+	name text,
+	email text,
 	status text,
 	role set<frozen<role_udt>>,
 	PRIMARY KEY (user)
@@ -46,13 +50,15 @@ insert into roles (role, detail) values ('ROLE_USER','');
 insert into roles (role, detail) values ('ROLE_ADMIN','');
 
 
-insert into usuarios (user, password, role, status) values
+insert into usuarios (user, password, lastname, name, email, role, status) values
 ('lizardo', '$2a$10$dBqsr4iATdls0.lJuolcROGd4MfO9Bcf2i81qQhfODqpcRL2RahQS', 
-	{{role:'ROLE_USER',detail:''}}, 'ENABLED'
+	'Mamani','Lizardo','lenz.90@gmail.com',{{role:'ROLE_USER',detail:''}}, 'ENABLED'
 );
 
-insert into usuarios (user, password, role, status) values
-('admin', '$2a$10$OXCz38iv0qVqdAWw1uRA4.Y2Hz/spk/Uc8MxhN8bVEgGbSR5RuM1.', {{role:'ROLE_USER',detail:''},{role:'ROLE_ADMIN',detail:''}}, 'ENABLED');
+insert into usuarios (user, password, lastname, name, email, role, status) values
+('admin', '$2a$10$OXCz38iv0qVqdAWw1uRA4.Y2Hz/spk/Uc8MxhN8bVEgGbSR5RuM1.', 
+	'Sanchez','Enrique','sanchez.20@gmail.com', {{role:'ROLE_USER',detail:''},{role:'ROLE_ADMIN',detail:''}}, 'ENABLED'
+);
 
 
 select * from usuarios;
